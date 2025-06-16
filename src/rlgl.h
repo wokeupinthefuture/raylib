@@ -325,6 +325,9 @@
 #define RL_READ_FRAMEBUFFER                     0x8CA8      // GL_READ_FRAMEBUFFER
 #define RL_DRAW_FRAMEBUFFER                     0x8CA9      // GL_DRAW_FRAMEBUFFER
 
+#define RL_ACTIVE_UNIFORMS                      0x8B86
+#define RL_ACTIVE_UNIFORM_MAX_LENGTH            0x8B87
+
 // Default shader vertex attribute locations
 #ifndef RL_DEFAULT_SHADER_ATTRIB_LOCATION_POSITION
     #define RL_DEFAULT_SHADER_ATTRIB_LOCATION_POSITION    0
@@ -661,6 +664,10 @@ RLAPI void rlCubemapParameters(unsigned int id, int param, int value); // Set cu
 // Shader state
 RLAPI void rlEnableShader(unsigned int id);             // Enable shader program
 RLAPI void rlDisableShader(void);                       // Disable shader program
+RLAPI void rlGetProgram(unsigned int program, int pname, int *params);
+RLAPI void rlGetActiveUniform(unsigned int program, unsigned int index,
+                              int bufSize, int *length, int *size, int *type,
+                              char *name);
 
 // Framebuffer state
 RLAPI void rlEnableFramebuffer(unsigned int id);        // Enable render texture (fbo)
@@ -1828,6 +1835,19 @@ void rlDisableShader(void)
 {
 #if (defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2))
     glUseProgram(0);
+#endif
+}
+
+void rlGetProgram(unsigned int program, int pname, int *params) {
+#if (defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2))
+  glGetProgamiv(program, pname, params);
+#endif
+}
+  
+void rlGetActiveUniform(unsigned int program, unsigned int index, int bufSize,
+                        int *length, int *size, int *type, char *name) {
+#if (defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2))
+  glGetActiveUniform(program, index, bufSize, length, size, type, name);
 #endif
 }
 
