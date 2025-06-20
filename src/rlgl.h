@@ -1840,7 +1840,7 @@ void rlDisableShader(void)
 
 void rlGetProgram(unsigned int program, int pname, int *params) {
 #if (defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2))
-  glGetProgamiv(program, pname, params);
+  glGetProgramiv(program, pname, params);
 #endif
 }
   
