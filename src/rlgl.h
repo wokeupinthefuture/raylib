@@ -273,6 +273,12 @@
 // GL equivalent data types
 #define RL_UNSIGNED_BYTE                        0x1401      // GL_UNSIGNED_BYTE
 #define RL_FLOAT                                0x1406      // GL_FLOAT
+#define RL_FLOAT_VEC2                           0x8B50      
+#define RL_FLOAT_VEC3                           0x8B51      
+#define RL_FLOAT_VEC4                           0x8B52      
+#define RL_INT                                  0x1404      
+#define RL_UNSIGNED_INT                         0x1405      
+#define RL_BOOL                                 0x8B56      
 
 // GL buffer usage hint
 #define RL_STREAM_DRAW                          0x88E0      // GL_STREAM_DRAW
@@ -668,6 +674,9 @@ RLAPI void rlGetProgram(unsigned int program, int pname, int *params);
 RLAPI void rlGetActiveUniform(unsigned int program, unsigned int index,
                               int bufSize, int *length, int *size, int *type,
                               char *name);
+RLAPI void rlGetUniformi(unsigned int program, unsigned int location, int* params);
+RLAPI void rlGetUniformf(unsigned int program, unsigned int location, float* params);
+RLAPI void rlGetUniformui(unsigned int program, unsigned int location, unsigned int* params);
 
 // Framebuffer state
 RLAPI void rlEnableFramebuffer(unsigned int id);        // Enable render texture (fbo)
@@ -1848,6 +1857,24 @@ void rlGetActiveUniform(unsigned int program, unsigned int index, int bufSize,
                         int *length, int *size, int *type, char *name) {
 #if (defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2))
   glGetActiveUniform(program, index, bufSize, length, size, type, name);
+#endif
+}
+
+void rlGetUniformi(unsigned int program, unsigned int location, int* params) {
+#if (defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2))
+    glGetUniformiv(program, location, params);
+#endif
+}
+
+void rlGetUniformf(unsigned int program, unsigned int location, float* params) {
+#if (defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2))
+    glGetUniformfv(program, location, params);
+#endif
+}
+
+void rlGetUniformui(unsigned int program, unsigned int location, unsigned int* params) {
+#if (defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2))
+    glGetUniformfv(program, location, params);
 #endif
 }
 
